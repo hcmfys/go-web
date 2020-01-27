@@ -33,31 +33,30 @@ func InitRouter() *gin.Engine {
 	}
 
 	var adminMiddleware = myjwt.GinJWTMiddlewareInit(myjwt.AdminAuthorizator)
-	apiv1 := r.Group("/api/v1")
-	//使用AdminAuthorizator中间件，只有admin权限的用户才能获取到接口
-	apiv1.Use(adminMiddleware.MiddlewareFunc())
+	var apVi1 = r.Group("/api/v1") //使用AdminAuthorizator中间件，只有admin权限的用户才能获取到接口
+	apVi1.Use(adminMiddleware.MiddlewareFunc())
 	{
 		//vue获取table信息
-		apiv1.GET("/table/list", v2.GetArticles)
+		apVi1.GET("/table/list", v2.GetArticles)
 		//获取标签列表
-		apiv1.GET("/tags", v1.GetTags)
+		apVi1.GET("/tags", v1.GetTags)
 		//新建标签
-		apiv1.POST("/tags", v1.AddTag)
+		apVi1.POST("/tags", v1.AddTag)
 		//更新指定标签
-		apiv1.PUT("/tags/:id", v1.EditTag)
+		apVi1.PUT("/tags/:id", v1.EditTag)
 		//删除指定标签
-		apiv1.DELETE("/tags/:id", v1.DeleteTag)
+		apVi1.DELETE("/tags/:id", v1.DeleteTag)
 
 		//获取文章列表
-		apiv1.GET("/articles", v1.GetArticles)
+		apVi1.GET("/articles", v1.GetArticles)
 		//获取指定文章
-		apiv1.GET("/articles/:id", v1.GetArticle)
+		apVi1.GET("/articles/:id", v1.GetArticle)
 		//新建文章
-		apiv1.POST("/articles", v1.AddArticle)
+		apVi1.POST("/articles", v1.AddArticle)
 		//更新指定文章
-		apiv1.PUT("/articles/:id", v1.EditArticle)
+		apVi1.PUT("/articles/:id", v1.EditArticle)
 		//删除指定文章
-		apiv1.DELETE("/articles/:id", v1.DeleteArticle)
+		apVi1.DELETE("/articles/:id", v1.DeleteArticle)
 	}
 
 	var testMiddleware = myjwt.GinJWTMiddlewareInit(myjwt.TestAuthorizator)
